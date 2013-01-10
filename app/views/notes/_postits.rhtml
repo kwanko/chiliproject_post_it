@@ -1,0 +1,13 @@
+<%#
+# Post it plugin for Chiliproject
+# Copyright (C) 2012 C2B SA
+# Arnauld NYAKU arnauld.nyaku@c2bsa.com
+%>
+<% if notes.any? %>
+  <% for note in notes %>
+    <%= render(:partial => 'notes/postit', :locals => {:note => note}) %>
+  <% end %>
+<%end%>
+
+
+

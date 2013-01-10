@@ -1,0 +1,4 @@
+jQuery("#draggable<%= @note.id %>").remove();
+jQuery("#notes_ids").val("<%= @notes.collect(&:id) %>");
+message("<%= escape_javascript(@notice) %>", jQuery("#postits"));
+

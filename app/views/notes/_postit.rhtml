@@ -1,0 +1,38 @@
+<%#
+# Post it plugin for Chiliproject
+# Copyright (C) 2012 C2B SA
+# Arnauld NYAKU arnauld.nyaku@c2bsa.com
+%>
+<%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
+<div id='draggable<%= note.id %>' class='postit'>
+  <div id="postit-header<%= note.id %>" class="postit-header"> 
+    <%= link_to("", "#", :onclick => "closeNote('#draggable#{note.id}'); return false;", :class => "icon icon-close", :id => "icon-toggle#{note.id}", :title => l(:button_close)) %>
+    <%= link_to_remote("", {:url => {:controller => "notes", :action => "destroy", :id => note.id}, :method => :post, :confirm => l(:text_on_delete_note_confirmation, :note => note.title)}, :class => "icon icon-del", :title => l(:button_delete))%>
+    <%= link_to_remote("", {:url => {:controller => "notes", :action => "edit", :id => note.id}, :method => 'get'}, :class => "icon icon-edit", :title => l(:button_edit)) %>    
+    <%= link_to("", "#", :class => 'icon icon-share', :id => "tTip#{note.id}") if postitnote_recipients(note).present? %>
+    <div class="clearfix"></div>
+  </div>
+
+  <div id="postit-content<%= note.id %>" class="postit-content">
+    <div class="<%= 'new-note-show' if (note.child? && note.author != User.current.id) && (note.old_title.present? || note.old_content.present?) %>">
+       <p class="<%= note.author.id == User.current.id ? 'note-created-by-me' : 'note-created-by' %>"><%= note.author.id == User.current.id ? postitnote_authoring(note.created_on, l(:text_me)) : postitnote_authoring(note.created_on, note.author.name) %></p>
+       <p class="note-title"><%= note.title %></p>
+      <div id="note-content" class="note-content wiki"><%= textilizable note.content %> </div>
+      
+    </div>
+    <% if (note.child? && note.author != User.current.id) && (note.old_title.present? || note.old_content.present?) %>
+      <div class="modified-note wiki">
+        <p class="note-created-by-me"><%= postitnote_authoring(note.created_on, l(:text_me)) if note.author.id != User.current.id %></p>
+        <p class="modified-note-author"><%= l(:text_orginal_note_from) %></p>
+        
+        <div id="note-content" class="note-content wiki">
+          <p class=""><%= note.old_title %></p>
+          <%= textilizable note.old_content %>
+        </div>
+      </div>
+    <%end%>
+  </div>
+</div>
+
+<%= javascript_tag "makePostitDraggable('#{note.id}', '#{url_for({:controller => 'notes', :action => 'update_positions'})}', '#{note.left_position}', '#{note.top_position}');" %>
+<%= javascript_tag "jQuery('#tTip#{note.id}').qtip({ content: '#{postitnote_recipients(note)}', show: 'mouseover', hide: 'mouseout', position: {corner: {tooltip: 'topRight', target: 'bottomLeft'}}, style: {color: '#ffffff', tip: true, name: 'dark'}})" if postitnote_recipients(note).present? %>

@@ -1,0 +1,31 @@
+<% if @new_notes.any? %>
+    jQuery.titleAlert("<%= l(:text_new_note_alert) + " (" + @new_notes.count.to_s + ")" %>", { requireBlur:true, stopOnFocus:true, interval:500 });
+    if (0 != jQuery("#new-note-alert").length) jQuery("#new-note-alert").remove();
+    jQuery("#main").before("<div id='new-note-alert' title ='<%= l(:text_new_note_alert) %>'></div>");
+    jQuery("#new-note-alert").dialog({resizable: false, width: 'auto', modal: true,
+                               buttons: {'Ok': function() { jQuery(this).dialog("close"); }},
+                               create: function() {jQuery("#new-note-alert").html("<%= escape_javascript(render 'new_note_alert') %>");},
+                               open: function() {jQuery("#new-note-alert").dialog("option","position","center");}
+                              });
+  <% for new_note in @new_notes %>
+      jQuery("body").append("<%= escape_javascript(render(:partial => 'postit', :locals => {:note => new_note})) %>");
+      if (jQuery("#draggable<%= new_note.id %>").length > 0) { jQuery("#draggable<%= new_note.id %>").position({my: 'left top', at: 'center top', of: '#main'}); jQuery("#draggable<%= new_note.id %>").effect('pulsate', {}, 500); }
+  <%end%>
+  
+<%end%>
+<% if @notes.any? %>  
+    <%for note in @notes %>
+        <% if note.alert_start_datetime && note.alert_start_datetime.strftime('%Y-%m-%d %H:%M') == DateTime.now.strftime("%Y-%m-%d %H:%M") %>
+          if (0 != jQuery("#dialogBox<%= note.id %>").length) jQuery("#dialogBox<%= note.id %>").remove();
+
+          jQuery("#main").before("<div id='dialogBox<%= note.id %>' title='<%= l(:text_note_reminder) %>'></div>");
+          jQuery("#dialogBox<%= note.id %>").dialog({resizable: false, width: 'auto', modal: true,
+                                       buttons: {"<%= l(:button_close) %>": function(){ jQuery(this).dialog("close");}},
+                                       create: function() {jQuery("#dialogBox<%= note.id %>").html("<%= escape_javascript(render(:partial => 'note_reminder', :locals => {:note => note})) %>");},
+                                       open: function() {jQuery("#dialogBox<%= note.id %>").dialog("option","position","center");}
+                                      });
+         jQuery.titleAlert("<%= l(:text_note_reminder) %>", { requireBlur:true, stopOnFocus:true, interval:500 });
+        <%end%>
+    <%end%>
+    jQuery("#notes_ids").val("<%= @notes.collect(&:id) %>");
+<%end%>

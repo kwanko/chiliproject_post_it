@@ -1,0 +1,8 @@
+<%#
+# Post it plugin for Chiliproject
+# Copyright (C) 2011-2012 Arnauld NYAKU
+%>
+<p class="bold">
+  <%= l(:text_full_new_note_alert, :notes_count => @new_notes.count) + ( @new_notes.count > 1 ? l(:text_new_note_plural) : l(:label_new_note).downcase) %>
+</p>
+

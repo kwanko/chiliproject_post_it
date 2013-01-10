@@ -1,0 +1,19 @@
+<%#
+# Post it plugin for Chiliproject
+# Copyright (C) 2012  C2B NETAFFILIATION  SA
+# Author:  Arnauld NYAKU
+%>
+
+<p><%= note.title %></p>
+<p class="note-content"><%= textilizable note.content %></p>
+<%= button_to_remote(l(:button_edit), {:url => {:controller => "notes", :action => "edit", :id => note.id}, :method => 'get'}, {:class => "icon icon-edit", :title => l(:button_edit)}) %>
+<hr/>
+<p>
+  <% remote_form_for :set_reminder, :url => {:controller => "notes", :action => "setreminder", :id => note.id }, :lang => current_language, :html => { :method => :post} do %>
+    <%= l(:text_reminder_in) %>
+    <%= select_tag :reminder_value, (1..10).collect{ |x| "<option value='#{x}'>#{x}</option>" } %>
+    <%= select_tag :reminder_unity, ['hour','day','week','month'].collect { |u| "<option value='#{u}'>#{l('text_' + u)}</option>"} %>
+
+    <%= submit_tag(l(:button_save), :class => "icon icon-save", :title => l(:text_set_reminder)) %>
+  <%end%>
+</p>

@@ -1,0 +1,11 @@
+<% if @note.valid? %>
+  jQuery("#dialogBox").dialog("close");
+  message("<%= escape_javascript(@notice) %>", jQuery("#content"));
+  <% if @note.keep_a_copy %>
+    jQuery("body").append("<%= escape_javascript(render(:partial => 'postit', :locals => {:note => @note})) %>");
+  <%end%>
+  jQuery("#notes_ids").val("<%= @notes.collect(&:id) %>");
+  if (jQuery("#draggable<%= @note.id %>").length > 0) { jQuery("#draggable<%= @note.id %>").effect('pulsate', {}, 500); }
+<% else %>
+  message("<%= escape_javascript(@notice) %>", jQuery("#new-note"));
+<% end %>

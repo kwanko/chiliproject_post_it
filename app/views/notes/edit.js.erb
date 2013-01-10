@@ -1,0 +1,8 @@
+if (0 != jQuery("#dialogBox<%= @note.id%>").length) jQuery("#dialogBox<%= @note.id%>").remove();
+if (0 != jQuery("#dialogBox").length) jQuery("#dialogBox").remove();
+var dialog_zindex = jQuery("[id^=draggable]").length > 0 ? parseInt(jQuery("[id^=draggable]:last").css("z-index")) + 1 : 1000
+jQuery("#main").before("<div id='dialogBox' title='<%= l(:text_edit) + ": " + @note.title %>'></div>");
+jQuery("#dialogBox").dialog({minWidth: 1005, minHeight: 600, modal: true, zIndex: dialog_zindex,
+                             create: function() {jQuery("#dialogBox").html("<%= escape_javascript(render 'edit') %>");},
+                             open: function() {jQuery("#dialogBox").dialog("option","position","center");}
+                            });

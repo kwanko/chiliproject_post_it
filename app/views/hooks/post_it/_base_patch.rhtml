@@ -1,0 +1,18 @@
+<%#
+# Post it plugin for Chiliproject
+# Copyright (C) 2012  Arnauld NYAKU
+%>
+<% if User.current.logged? %>
+<div id="post-it-notes-menu">
+  <p class="menu-postit-item"><%= link_to_remote "", {:url => {:controller => "notes", :action => "new"}, :method => 'get'}, :class => "icon icon-add-note", :title => l(:label_new_note)%></p>
+  <p class="menu-postit-item"><%= link_to "", "#", :onclick => "toggleAllPostits('#{l(:label_hide_note_plural)}','#{l(:label_show_note_plural)}'); return false;", :id => 'postits-toggle-link', :class => "icon icon-view-notes", :title => l(:label_hide_note_plural) %></p>
+</div>
+
+
+
+ <%= hidden_field_tag "notes_ids", User.current.notes.collect(&:id) %>
+ <!--
+  Ce script va être exécuter toutes les 50 secondes pour pouvoir aficher l'alerte d'une note
+  -->
+  <%= javascript_tag "setInterval(\"runPostitAlert('#{url_for({:controller => 'notes', :action => 'runalert'})}','#notes_ids')\", 50000)" %>
+<%end%>

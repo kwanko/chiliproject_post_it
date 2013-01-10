@@ -1,0 +1,10 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<% if @content %>
+    <fieldset class="preview"><legend><%= l(:field_content) %></legend>
+            <%= textilizable @content %>
+    </fieldset>
+<% end %>

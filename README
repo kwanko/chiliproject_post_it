@@ -1,0 +1,52 @@
+=== post_it plugin 0.0.1
+
+This is a post_it plugin for Chiliproject.
+
+ONLY compatible with Chiliproject 3.X NOT compatible with Chiliproject 2.X
+
+
+== Getting the plugin
+
+The newest version is always at {GitHub}[http://github.com/kwanko/chiliproject_post_it].
+
+
+=== Feature
+
+1. Create a note and display it like a post it on the screen
+
+2. Note can be sent to another user
+
+3. Note can be created with alert which will occur at the setting time
+
+
+=== Plugin installation
+
+1. Copy the plugin directory(chiliproject_post_it) into the vendor/plugins directory
+   NOTE: The plugin directory must be chiliproject_post_it!
+
+2. Migrate plugin:
+   rake db:migrate_plugins NAME=chiliproject_post_it RAILS_ENV=production
+
+3. Start Chiliproject
+
+
+=== Changelog
+
+0.0.1 -> first version
+
+
+
+=== Language contributors
+
+fr.yml - Arnauld NYAKU
+en.yml - Arnauld NYAKU
+
+
+=== Contact info
+
+Homepage -> powered by Chiliproject
+Email    -> arnauld.nyaku@c2bsa.com
+
+=== Licence
+
+The code is released under the GPLv2: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html

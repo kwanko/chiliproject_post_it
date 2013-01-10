@@ -1,0 +1,23 @@
+<%#
+# Post it plugin for Chiliproject
+# Copyright (C) 2012  Arnauld NYAKU
+%>
+
+<%#
+# Affichage des post it sur toutes les pages
+%>
+
+<% if User.current.logged?%>
+  <% notes = User.current.notes %>
+  <% notes = User.current.notes  if User.current.pref.display_option == 'all' %>
+  <% notes = User.current.mynotes  if User.current.pref.display_option == 'only_my_post_it' %>
+  <% notes = User.current.sendtomenotes  if User.current.pref.display_option == 'only_post_it_send_to_me' %>
+  <%= javascript_tag "jQuery('body').append('" + "#{escape_javascript(render(:partial => 'notes/postits', :locals => {:notes => notes.keep_if {|n| n.keep_a_copy }}))}" + "')" %>
+<% end %>
+
+<%#
+# Cacher les post it si l'utilisateur a choisi l'option de ne pas l'afficher sur toutes les pages
+%>
+<% if User.current.logged? and !User.current.pref.page_option %>
+  <%= javascript_tag "toggleAllPostits('#{l(:label_hide_note_plural)}','#{l(:label_show_note_plural)}');" %>
+<%end%>

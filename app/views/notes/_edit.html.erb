@@ -1,0 +1,18 @@
+<%#
+# Post it plugin for Chiliproject
+# Copyright (C) 2011-2012 Arnauld NYAKU
+%>
+<div id= "new-note" class="new-note">
+  <% remote_form_for @note, :as => :note, :url => {:controller => "notes", :action => "update", :id => @note.id}, :lang => current_language, :html => { :method => :put, :class => "new-note", :id => "note-form" } do |f| %>
+    <%= render :partial => 'form', :locals => { :f => f } %>
+    <%= submit_tag l(:button_save) %>
+    <%= link_to_remote l(:label_preview),
+                     { :url => {:controller => "notes", :action => "preview"},
+                       :method => 'get',
+                       :update => 'note-preview',
+                       :with => "Form.serialize('note-form')"
+                     }, :accesskey => accesskey(:preview) %>
+  <%end%>
+
+<div id="note-preview" class="wiki"></div>
+</div>

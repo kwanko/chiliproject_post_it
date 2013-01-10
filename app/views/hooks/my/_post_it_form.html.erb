@@ -1,0 +1,11 @@
+<%
+# Post it plugin for Chiliproject
+# Copyright (C) 2012 Arnauld NYAKU
+%>
+</div>
+<h3><%=h l(:label_display_post_it)%></h3>
+
+<div class='box'>
+  <p><%= select :pref, :display_option, NotePreference.display_post_it_options.collect {|o| [l(o.last), o.first]}, :include_blank => false %></p>
+  <p><label><%= label_tag('pref_page_option', l(:text_display_post_it_on_all_page),:class => 'bold')%> <%= check_box(:pref, :page_option, {}, 1, 0) %></label></p>
+

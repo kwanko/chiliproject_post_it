@@ -1,0 +1,5 @@
+<% if @note.keep_a_copy %>
+  if (0 != jQuery("#dialogBox<%= @note.id %>").length) jQuery("#dialogBox<%= @note.id %>").remove();
+  jQuery("#draggable<%= @note.id %>").remove();
+  jQuery("body").append("<%= escape_javascript(render(:partial => 'postit', :locals => {:note => @note})) %>");
+<%end%>

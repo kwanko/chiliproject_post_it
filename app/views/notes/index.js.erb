@@ -1,0 +1,8 @@
+removeAllPostits();
+
+jQuery("body").append("<%= escape_javascript(render(:partial => 'notes/postits', :locals => {:notes => @notes}) ) %>");
+
+jQuery('#li-menu-postit').removeClass('open');
+jQuery('#ul-menu-postit').attr('style', 'display: none;');
+
+jQuery('body').append("<div id='display-hide-postits' class='postits-div'><%= escape_javascript(link_to(l(:label_post_it),'#', :onclick => 'toggleAllPostits();', :class => 'icon icon-toggle-notes', :id => 'postits-toggle-link' ,:title => l(:button_close))) %></div>");
